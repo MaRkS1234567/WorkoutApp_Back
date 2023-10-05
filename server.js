@@ -1,5 +1,7 @@
 import authRoutes from './app/auth/auth.routes.js'
 import userRoutes from './app/user/user.routes.js'
+import exerciseRoutes from './app/exercise/exercise.routes.js'
+import workoutRoutes from './app/workout/workout.routes.js'
 import express from 'express'
 import 'colors'
 import morgan from 'morgan'
@@ -7,6 +9,7 @@ import dotenv from 'dotenv'
 import { prisma } from './app/prisma.js'
 import { notFound, errorHandler } from './app/middleware/error.middleware.js'
 import { getUserProfile } from './app/user/user.controller.js'
+import path from 'path'
 
 dotenv.config()
 
@@ -20,8 +23,15 @@ async function main() {
 	const PORT = process.env.PORT || 3000
 
 	app.use(express.json())
+
+	const __dirname = path.resolve()
+
+	app.use('/uploads', express.static(path.join(__dirname, '/uploads/')))
+
 	app.use('/api/auth', authRoutes)
 	app.use('/api/users', userRoutes)
+	app.use('/api/exercise', exerciseRoutes)
+	app.use('/api/workout', workoutRoutes)
 
 	app.use(notFound)
 	app.use(errorHandler)

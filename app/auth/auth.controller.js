@@ -52,7 +52,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 			email,
 			password: await hash(password),
 			name: faker.name.fullName(),
-			images: []
+			images: ['/images/before.jpg', '/images/after.jpg']
 		},
 		select: UserFields
 	})
